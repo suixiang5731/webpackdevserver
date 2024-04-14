@@ -1,5 +1,9 @@
 const hWP = require("html-webpack-plugin")
 const miniCssExtractPlugin = require("mini-css-extract-plugin")
+/**
+ * 分析插件
+ */
+const bundleanlyzer = require("webpack-bundle-analyzer").BundleAnalyzerPlugin
 // process.env.NODE_ENV 的值来自于 package.json 中脚本命令中的设置：
 /*
 cross-env NODE_ENV=production  和 cross-env NODE_ENV=development
@@ -12,7 +16,8 @@ let pluginArr = [
     new hWP({
         filename: "index.html",
         template: "./index.html"
-    })
+    })/*,
+    new bundleanlyzer()*/
 ]
 function hasMiniCss() {
     if (process.env.NODE_ENV === "production") {
@@ -42,6 +47,31 @@ module.exports = {
                     "css-loader"]
             }
         ]
+    },
+    optimization: {
+        splitChunks: {
+            chunks: "all",
+
+            cacheGroups: {
+                vendor: {
+                    test: /[\\/]node_modules[\\/]/,
+                    filename: "vendor.[chunkhash:4].js",
+                    chunks: "all",
+                    minChunks: 1
+                },
+                common: {
+                    filename: "common.[chunkhash:4].js",
+                    chunks: "all",
+                    minChunks: 2,
+                    minSize: 0 // 1000byte
+                }
+
+            }
+        },
+
+        runtimeChunk: {
+            name: "runtime.js"
+        }
     },
 
     plugins: pluginArr

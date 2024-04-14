@@ -1,5 +1,6 @@
 const base = require("./webpack.baseconfig")
 const merge = require("webpack-merge").merge
+const webpack = require("webpack")
 const devConf = {
     mode: "development",
     // 开发模式一般设置这个 eval-cheap-source-map  生产模式直接关掉 none
@@ -22,6 +23,13 @@ const devConf = {
             }
         ]
     },
+    plugins: [
+        /*使用该插件可以 为业务代码提供变量，业务代码中直接使用
+        baseURL即可，例如 console.log(baseURL)*/
+        new webpack.DefinePlugin({
+            baseURL: "www.xxx.com"
+        })
+    ]
 }
 // 使用 webpack-merge 的 merge方法 合并基础配置和开发环境配置
 module.exports=merge(base, devConf)
