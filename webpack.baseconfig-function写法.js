@@ -9,6 +9,7 @@ const miniCssExtractPlugin = require("mini-css-extract-plugin")
  * */
 module.exports=function (env) {
     console.log(env)
+    console.log(env.production)
     let pluginArr = [
         new hWP({
             filename: "index.html",

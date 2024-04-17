@@ -2,7 +2,7 @@ const hWP = require("html-webpack-plugin")
 module.exports = {
     mode: "development",
 
-    // 开发模式一般设置这个 eval-cheap-source-map  生产模式直接关掉 none
+    // 开发模式一般设置这个 eval-cheap-source-map  生产模式直接关掉 none （生产环境直接删除该配置项）
     devtool: "eval-cheap-source-map",
 
     entry: {
